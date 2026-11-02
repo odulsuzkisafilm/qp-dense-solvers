@@ -1,0 +1,21 @@
+{
+  "note": "Independent small SciPy mirror using real packaged data; not MATLAB execution, not timing data. NumPy seeds do not select MATLAB-identical rows.",
+  "cases": [
+    {
+      "n": 40,
+      "relative_disagreement_with_double_KKT": [
+        7.733175372695815e-14,
+        2.13103594679101e-14
+      ],
+      "cond_H": 5218.218833732085
+    },
+    {
+      "n": 200,
+      "relative_disagreement_with_double_KKT": [
+        5.155066558828804e-13,
+        4.778290493304492e-13
+      ],
+      "cond_H": 17414.585125413687
+    }
+  ]
+}

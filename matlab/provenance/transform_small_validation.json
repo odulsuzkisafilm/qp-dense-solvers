@@ -1,0 +1,19 @@
+{
+  "note": "Small SciPy mathematical mirror, not MATLAB timing or large memory validation",
+  "checks": [
+    {
+      "case": "DTOC3_N10.mat",
+      "QR_and_Schur_reference_discrepancies": [
+        1.022205629727356e-15,
+        4.537598764274507e-15
+      ]
+    },
+    {
+      "case": "AUG2DC_NX3_NY3.mat",
+      "QR_and_Schur_reference_discrepancies": [
+        5.65775664038811e-16,
+        5.930346878070242e-16
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "case_id": "AUG2DC_NX3_NY3",
+  "n": 24,
+  "p": 9,
+  "parameters": {
+    "NX": 3,
+    "NY": 3
+  },
+  "n_fixed_eliminated": 0,
+  "objective_constant": 12.0,
+  "assembly_errors": [
+    6.961974900409607e-17,
+    1.1464778640826843e-16
+  ],
+  "reference_eta_fro": 1.5395500532671804e-17,
+  "reference_crosscheck": 1.0099387187656332e-16,
+  "source_url": "https://raw.githubusercontent.com/ralna/SIF/master/AUG2DC.SIF",
+  "sif_sha256": "0b009a698f57e6437eea76ad6afd4bc2ec1b0871f59c57f86b9114f534d64fa5"
+}

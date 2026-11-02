@@ -1,0 +1,34 @@
+[
+  {
+    "candidate": "CVXEQP3",
+    "decision": "Not exported: exact historic identifier not present in current ralna/SIF master tree inspected. No assertion that CVXQP3 equals historical CVXEQP3."
+  },
+  {
+    "candidate": "CVXQP3",
+    "decision": "Current SIF has 0.1 <= x_i <= 10; excluded from equality-only solver. Bounds not silently deleted.",
+    "source": "https://github.com/ralna/SIF/blob/master/CVXQP3.SIF"
+  },
+  {
+    "candidate": "Scott-Tuma GEMAT1",
+    "decision": "Two paper-inspired LSE constructions exported, p=5 and 20. H double Cholesky passes, C numerical full-row-rank. Not exact reproduction due row tie/explicit-zero policy.",
+    "source": "https://arxiv.org/html/2106.13142"
+  },
+  {
+    "candidate": "Scott-Tuma deter3",
+    "decision": "Our row split removes one zero column, n=7646; stored normal matrix Cholesky fails at pivot14. Excluded from global-SPD comparison. Does not establish failure of original paper or reduced Hessian."
+  },
+  {
+    "candidate": "Vanroye et al benchmark repository",
+    "decision": "Downloaded current repository contains cart-pendulum generated code, not a verified quadrotor data export. Terminal RSQrqtFGN Hessian block is zero. Generic EQP literature permits globally singular Hessians. Not exported as our verified SPD benchmark.",
+    "commit": "8bf4b5684219a6035e93b61d8ef6ae4afd1f4e19",
+    "source": "https://github.com/lvanroye/generalization_riccati"
+  },
+  {
+    "candidate": "DTOC3 n12000",
+    "decision": "Native original CUTEst problem with two fixed initial states eliminated equivalently. n12000 p8000. Also available under explicit orthogonal coordinate transformation."
+  },
+  {
+    "candidate": "Kriging",
+    "decision": "Retained as real-data chosen Gaussian covariance QP, p=1, not a published QP instance."
+  }
+]

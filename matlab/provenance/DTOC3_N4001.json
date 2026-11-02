@@ -1,0 +1,18 @@
+{
+  "case_id": "DTOC3_N4001",
+  "n": 12000,
+  "p": 8000,
+  "parameters": {
+    "N": 4001
+  },
+  "n_fixed_eliminated": 2,
+  "objective_constant": 0.0,
+  "assembly_errors": [
+    1.9614729967632995e-15,
+    1.9041326014168924e-15
+  ],
+  "reference_eta_fro": 5.795490499933911e-19,
+  "reference_crosscheck": 3.6853598245217355e-10,
+  "source_url": "https://raw.githubusercontent.com/ralna/SIF/master/DTOC3.SIF",
+  "sif_sha256": "808e75c2533a28873e3bbb76f703cada3a08690614d9bda1a27140b536ed65d4"
+}

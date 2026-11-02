@@ -1,0 +1,14 @@
+{
+  "source": "https://archive.ics.uci.edu/dataset/246/3d+road+network+north+jutland+denmark",
+  "doi": "10.24432/C5GP51",
+  "creator": "Manohar Kaul (2013)",
+  "license": "CC BY 4.0",
+  "raw_rows": 434874,
+  "unique_positions": 397978,
+  "raw_zip_sha256": "f68d145d85ea5df3e26bb0c218fe6789ab634786b7a67e16c0fc1a3efe5ac2a6",
+  "projection": "Local equirectangular approximation, Earth radius 6371 km, longitude cos(mean latitude). Euclidean distances define the kernel; not geodesic distances.",
+  "lat0": 57.083803818377405,
+  "lon0": 9.732492828177186,
+  "deduplication": "First source row at each exact longitude/latitude retained; held-out location disjoint from training.",
+  "model": "Chosen ordinary-kriging model on real UCI data; not an unmodified CUTEst or pre-existing QP benchmark."
+}

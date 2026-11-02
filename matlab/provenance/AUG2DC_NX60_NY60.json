@@ -1,0 +1,19 @@
+{
+  "case_id": "AUG2DC_NX60_NY60",
+  "n": 7320,
+  "p": 3600,
+  "parameters": {
+    "NX": 60,
+    "NY": 60
+  },
+  "n_fixed_eliminated": 0,
+  "objective_constant": 3660.0,
+  "assembly_errors": [
+    4.959010178248574e-16,
+    4.954745619267976e-15
+  ],
+  "reference_eta_fro": 2.5519990642915834e-18,
+  "reference_crosscheck": 6.649522311167972e-15,
+  "source_url": "https://raw.githubusercontent.com/ralna/SIF/master/AUG2DC.SIF",
+  "sif_sha256": "0b009a698f57e6437eea76ad6afd4bc2ec1b0871f59c57f86b9114f534d64fa5"
+}
