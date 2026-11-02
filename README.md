@@ -24,7 +24,6 @@ built on two Cholesky factorizations.
 | `matlab/provenance/` | SIF sources, export manifests, SHA-256 hashes, candidate-problem decisions, validation reports |
 | `python/` | scripts that produced the `.mat` files and independent checks, see `python/README.md` |
 | `results/` | raw `results.csv` and `environment.txt` of every experiment reported |
-| `writeup/`, `slides/` | LaTeX sources |
 
 ## Running the experiments
 
