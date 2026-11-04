@@ -1,0 +1,117 @@
+[
+  {
+    "kind": "reduced_pd",
+    "expected_inertia": [
+      200,
+      100,
+      0
+    ],
+    "eigenvalue_inertia": [
+      200,
+      100,
+      0
+    ],
+    "ldl": {
+      "inertia": [
+        200,
+        100,
+        0
+      ],
+      "x_error": 1.2702748195666546e-13
+    },
+    "vr": {
+      "y_norm": 35.341861981348124,
+      "x_error": 1.543633260581228e-13
+    },
+    "cholesky_H": "failed"
+  },
+  {
+    "kind": "reduced_indef",
+    "expected_inertia": [
+      190,
+      110,
+      0
+    ],
+    "eigenvalue_inertia": [
+      190,
+      110,
+      0
+    ],
+    "ldl": {
+      "error": "inertia (190, 110, 0)"
+    },
+    "vr": {
+      "error": "Internal potrf return info = [65] for slices [0]."
+    },
+    "cholesky_H": "failed"
+  },
+  {
+    "kind": "reduced_pd",
+    "n": 4000,
+    "seed": 11,
+    "vr": {
+      "y_norm": 590.9301212784135,
+      "x_error": 4.659172347514715e-11
+    }
+  },
+  {
+    "kind": "reduced_pd",
+    "n": 4000,
+    "seed": 22,
+    "vr": {
+      "y_norm": 594.2845550235028,
+      "x_error": 3.999259898813832e-11
+    }
+  },
+  {
+    "kind": "reduced_pd",
+    "n": 4000,
+    "seed": 33,
+    "vr": {
+      "y_norm": 558.8762835456951,
+      "x_error": 4.5068256119414224e-11
+    }
+  },
+  {
+    "kind": "reduced_indef",
+    "n": 4000,
+    "seed": 11,
+    "vr": {
+      "error": "Internal potrf return info = [1202] for slices [0]."
+    }
+  },
+  {
+    "kind": "reduced_indef",
+    "n": 4000,
+    "seed": 22,
+    "vr": {
+      "error": "Internal potrf return info = [1213] for slices [0]."
+    }
+  },
+  {
+    "kind": "reduced_indef",
+    "n": 4000,
+    "seed": 33,
+    "vr": {
+      "error": "Internal potrf return info = [1204] for slices [0]."
+    }
+  },
+  {
+    "problem": "dense_kH1e4",
+    "method": "ldl",
+    "inertia": [
+      300,
+      30,
+      0
+    ],
+    "x_error": 4.928913949123775e-13
+  },
+  {
+    "problem": "dense_kH1e4",
+    "method": "vr",
+    "y_norm": 36.67431743609085,
+    "x_error": 4.315055049330682e-12,
+    "lambda_error": 4.350299322452408e-14,
+    "feasibility": 3.1822829593826134e-15
+  }
+]

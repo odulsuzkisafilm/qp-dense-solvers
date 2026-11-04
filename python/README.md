@@ -11,7 +11,8 @@ a working CUTEst installation and the SIF files in `matlab/provenance/`.
 | `reproduce/build_conditioning.py` | build the n = 80 conditioning problems and their 96 digit references |
 | `reproduce/build_literature.py` | build the GEMAT1 least squares problems from the SuiteSparse matrix |
 | `reproduce/check_lse_reference.py` | recompute the GEMAT1 reference with an augmented system |
-| `reproduce/validate_kriging_python.py` | run both solvers in SciPy on small kriging problems and compare with a direct KKT solve |
+| `reproduce/validate_kriging_python.py` | run the QR and Schur solvers in SciPy on small kriging problems and compare with a direct KKT solve |
+| `reproduce/validate_new_methods.py` | NumPy versions of the LDL inertia count, the indefinite problem generator and the variable reduction solver, run on small cases and on the n = 4000 indefinite problems |
 | `precision_check/check_precision.py` | rerun the ten failed Schur cases in mpmath at 64 and 96 digits |
 | `make_deck_data.py RESULTS_DIR` | turn `results.csv` files into the plot data used by the slides and the writeup |
 

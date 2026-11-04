@@ -18,5 +18,4 @@ function out = run_conditioning_tests()
         suite_checkpoint(rows, out);
         clear P new
     end
-    plot_suite_results(out);
 end

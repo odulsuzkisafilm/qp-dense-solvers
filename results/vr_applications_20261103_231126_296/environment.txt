@@ -1,0 +1,6 @@
+MATLAB: 26.2.0.3433840 (R2026b) Update 1
+Platform: GLNXA64
+BLAS: Intel(R) oneAPI Math Kernel Library Version 2025.3-Product Build 20251007 for Intel(R) 64 architecture applications (CNR branch AVX512_E1)
+Budget heuristic: 10.00 GiB; 8 dense n-by-n arrays. Not measured free RAM.
+All timings are fresh complete solves, including input checks and factorizations.
+Generation, references, conversion to full, metrics, plots and I/O are excluded.

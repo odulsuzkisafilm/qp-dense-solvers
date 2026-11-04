@@ -1,58 +1,86 @@
-# Dense direct solvers for equality-constrained quadratic optimization
+# Dense direct solvers for equality constrained QPs
 
-Code, data and results for the CPSC 542G midterm project
-*Dense Direct Solvers for Equality-Constrained Quadratic Optimization:
-a QR Null-Space Method versus a Schur-Complement Method* (Efe Cinar, November 2026).
+Code, data and results for my CPSC 542G midterm project, *Dense Direct Solvers for
+Equality Constrained Quadratic Optimization*.
 
 The problem is
 
-    min_x  1/2 x'Hx - g'x   subject to   Cx = d,
+    min_x  1/2 x'Hx - g'x   subject to   Cx = d
 
-with `H` symmetric positive definite and `C` of full row rank. Two dense solvers are
-compared: a null-space method built on a full QR of `C'` and a Schur-complement method
-built on two Cholesky factorizations.
+with `C` of full row rank. I compare four dense direct methods:
+
+- **QR null space.** Full QR of `C'`, orthonormal null space basis `Z`, Cholesky of `Z'HZ`.
+- **Variable reduction null space.** `Z = [I; -C2\C1]`, where the columns in `C2` are
+  picked by LU with partial pivoting on `C'`. No QR and no SVD.
+- **Schur complement.** Cholesky of `H`, then Cholesky of `S = C H^{-1} C'`.
+- **LDL' of the KKT matrix.** Bunch-Kaufman LDL' of `[H C'; C 0]`. The signs of the
+  pivots give the inertia, which should be `(n, p, 0)` when `Z'HZ` is positive definite.
+
+The first three need `H` (or `Z'HZ`) to be positive definite. The LDL' solver doesn't, and
+it reports the inertia so you can tell a minimizer from a saddle point.
 
 ## Layout
 
-| Path | Contents |
+| Path | What's in it |
 |---|---|
-| `matlab/src/solve_qr_null.m`, `matlab/src/solve_schur.m` | the two solvers |
-| `matlab/src/` | input checks, problem generators (`make_dense_case.m`, `make_kriging_case.m`), the orthogonal change of variables (`orthogonal_benchmark.m`), the timing harness (`suite_measure.m`) |
-| `matlab/run_*.m` | experiment drivers: `run_final_dense` (size / fraction / illcond / conditioning sweeps), `run_literature` (DTOC3, GEMAT1), `run_kriging`, plus earlier `run_cutest_tests`, `run_conditioning_tests`, `run_dense_scaling` |
-| `matlab/package_results.m`, `matlab/plot_suite_results.m` | zip results; summary tables |
-| `matlab/data/*.mat` | stored problems: DTOC3 and AUG2DC exports from CUTEst, GEMAT1 least-squares setups, the n=80 conditioning problems, and the UCI road/elevation sample used for kriging |
-| `matlab/provenance/` | SIF sources, export manifests, SHA-256 hashes, candidate-problem decisions, validation reports |
-| `python/` | scripts that produced the `.mat` files and independent checks, see `python/README.md` |
-| `results/` | raw `results.csv` and `environment.txt` of every experiment reported |
+| `matlab/src/solve_qr_null.m` | QR null space solver |
+| `matlab/src/solve_vr_null.m` | variable reduction null space solver |
+| `matlab/src/solve_schur.m` | Schur complement solver |
+| `matlab/src/solve_kkt_ldl.m` | LDL' of the KKT matrix with the inertia check |
+| `matlab/src/ldl_inertia.m` | counts the inertia from the 1x1 and 2x2 blocks of `D` |
+| `matlab/src/kkt_ldl_probe.m` | LDL' with a shift `H + alpha*I` or `-delta*I` in the constraint block, used for the regularization runs |
+| `matlab/src/make_dense_case.m` | random dense problems with prescribed `cond(H)` and `cond(C)` |
+| `matlab/src/make_indefinite_case.m` | problems with indefinite `H` where `Z'HZ` is either positive definite or has a known number of negative eigenvalues |
+| `matlab/src/make_kriging_case.m` | ordinary kriging problem on the road elevation data |
+| `matlab/src/orthogonal_benchmark.m` | the change of variables `x = Uy` that makes DTOC3 fully dense |
+| `matlab/src/suite_measure.m` | timing and error measurement for one problem and a list of methods |
+| `matlab/src/method_list.m` | maps method names to solvers |
+| `matlab/run_*.m` | experiment drivers, see below |
+| `matlab/data/` | stored problems (DTOC3 and AUG2DC from CUTEst, GEMAT1 least squares setups, the n = 80 conditioning problems, the road elevation sample) |
+| `matlab/provenance/` | SIF files, export records, hashes and validation output for the stored problems |
+| `python/` | scripts that built the stored problems and independent checks, see `python/README.md` |
+| `results/` | `results.csv` and `environment.txt` for every experiment in the writeup |
 
-## Running the experiments
+## Running
 
-Everything in `matlab/` runs in plain MATLAB (tested in MATLAB Online R2026b); no
-toolboxes, no Python and no CUTEst installation are needed because the problems are
-stored in `matlab/data/`. From the `matlab/` folder:
+Everything in `matlab/` runs in plain MATLAB without toolboxes. I ran it in MATLAB Online
+R2026b. The problems are stored in `matlab/data/`, so Python and CUTEst aren't needed. From
+the `matlab/` folder:
 
-    run_literature('check'); run_kriging('check');     % small checks with assertions
-    run_final_dense('dimension');                       % n = 1000 ... 12000, p/n = 0.5
-    run_final_dense('fraction');                        % n = 12000, p/n = 0.1 ... 0.9
-    run_final_dense('illcond');                         % same sizes, cond(H)=1e8, cond(C)=1e6
-    run_literature('full');  run_kriging('full');       % application problems
-    run_final_dense('conditioning');                    % n = 12000 conditioning sweep
-    run_conditioning_tests();                           % n = 80 sweep with stored references
-    package_results();
+    run_literature('check'); run_kriging('check');   % small checks
+    run_vr('check'); run_direct3('check'); run_indefinite('check');
 
-Each driver writes a timestamped folder under `matlab/results/` with `results.csv`,
-`environment.txt` and the solution vectors. The largest cases need about 9 GiB of RAM.
-A timed solve is one complete solver call; generation, loading, references and error
-evaluation are outside the timer.
+    run_final_dense('dimension')      % QR and Schur, n = 1000 ... 12000, p/n = 0.5
+    run_final_dense('fraction')       % QR and Schur, n = 12000, p/n = 0.1 ... 0.9
+    run_final_dense('illcond')        % QR and Schur, cond(H) = 1e8, cond(C) = 1e6
+    run_final_dense('conditioning')   % QR and Schur, n = 12000 conditioning sweep
+    run_conditioning_tests()          % QR and Schur, n = 80 with 96 digit references
 
-The Python scripts are optional and document provenance; they need NumPy, SciPy and
-mpmath, and `export_cutest.py` additionally needs PyCUTEst.
+    run_vr('dimension'); run_vr('fraction'); run_vr('illcond');
+    run_vr('conditioning'); run_vr('applications')
+
+    run_direct3('pilot'); run_direct3('dimension'); run_direct3('conditioning')
+
+    run_indefinite('full')            % indefinite H, inertia
+    run_regularize('full')            % shifts in the constraint block and in H
+
+    run_literature('full'); run_kriging('full')
+    package_results()
+
+Each driver writes a folder under `matlab/results/` with `results.csv`, `environment.txt`
+and the solution vectors. The largest cases need about 9 GiB of RAM. The dense LDL' runs
+stop at n = 8000 because the KKT matrix and its factor don't fit at n = 12000.
+
+A timed solve is one full solver call. Generating or loading the problem, the reference
+and the error computation are outside the timer.
 
 ## Sources
 
-- Methods: M. Benzi, G. H. Golub, J. Liesen, *Numerical solution of saddle point problems*, Acta Numerica 2005, Sections 5–6.
-- DTOC3, AUG2DC: CUTEst / SIF collection, https://github.com/ralna/SIF (exported with PyCUTEst 1.8.2).
-- GEMAT1: SuiteSparse Matrix Collection, HB/gemat1; equality-constrained least-squares setup after J. Scott and M. Tůma, BIT Numer. Math. 62 (2022).
-- Elevation data: M. Kaul, 3D Road Network (North Jutland, Denmark), UCI Machine Learning Repository, CC BY 4.0.
-
-All solver and experiment code is the author's own.
+- M. Benzi, G. H. Golub, J. Liesen, *Numerical solution of saddle point problems*, Acta Numerica 14 (2005).
+- N. I. M. Gould, M. E. Hribar, J. Nocedal, *On the solution of equality constrained quadratic programming problems arising in optimization*, SIAM J. Sci. Comput. 23 (2001).
+- J. Nocedal, S. J. Wright, *Numerical Optimization*, 2nd ed., Springer (2006), Chapter 16.
+- N. J. Higham, *Accuracy and Stability of Numerical Algorithms*, 2nd ed., SIAM (2002), Chapter 11.
+- J. R. Bunch, L. Kaufman, *Some stable methods for calculating inertia and solving symmetric linear systems*, Math. Comp. 31 (1977).
+- DTOC3 and AUG2DC from the CUTEst SIF collection, https://github.com/ralna/SIF, exported with PyCUTEst 1.8.2.
+- GEMAT1 from the SuiteSparse Matrix Collection (HB/gemat1). The least squares setup follows J. Scott and M. Tůma, BIT Numer. Math. 62 (2022).
+- Road elevation data from M. Kaul, 3D Road Network (North Jutland, Denmark), UCI Machine Learning Repository, CC BY 4.0.

@@ -1,8 +1,0 @@
-final_v2_explicit_buffer_cleanup
-No MATLAB execution locally. New large tests pending user run.
-
-2026-10-29 (Claude review): orthogonal_benchmark.m line 6 h=diag(P.H) -> h=full(diag(P.H)).
-Reason: sparse h made (U'.*h') a sparse n-by-n array with n^2 nonzeros, roughly doubling peak memory
-at n=12000 before the product with U. Mathematics unchanged. Backup: src/orthogonal_benchmark.m.bak_claude
-2026-10-29 (Claude): dimension sweep and kriging full now use n=[1000 2000 4000 8000 12000] (dyadic 1000..8000, plus 12000 as largest feasible size; 16000 exceeds the 10 GiB planning budget). README text updated accordingly.
-2026-10-30 (Claude): run_final_dense gains mode illcond: n=[1000 2000 4000 8000 12000], p/n=0.5, kH=1e8, kC=1e6, seeds 11 22, no timing repeats. Purpose: accuracy versus n at fixed poor conditioning. Cholesky failures are recorded, not fatal.
